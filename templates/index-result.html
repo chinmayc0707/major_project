@@ -319,16 +319,18 @@
             </button>
         </div>
 
-        <!-- Original Audio Section -->
-        {% if audio_file %}
+        <!-- Original Text/Transcription Section -->
+        {% if transcription %}
         <div class="summary-section">
-            <h2>Original Audio</h2>
+            <h2>Original Text/Transcription</h2>
+            {% if audio_file %}
             <div class="audio-container">
                 <audio controls>
                     <source src="{{ url_for('uploaded_file', filename=audio_file) }}" type="audio/mpeg">
                     Your browser does not support the audio element.
                 </audio>
             </div>
+            {% endif %}
             <div class="text-container">
                 <div class="text-content" id="original-text">
                     {{transcription}}
