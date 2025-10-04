@@ -21,11 +21,8 @@ This project is a web application that transcribes audio/video content and provi
 
 ## How to Run
 
-1. **Clone the repository:**
-   ```bash
-   git clone <repository-url>
-   cd <repository-directory>
-   ```
+1. **Navigate to the project directory:**
+   Once you have the project files, open a terminal or command prompt and navigate to the root directory of the project.
 
 2. **Install dependencies:**
    ```bash
