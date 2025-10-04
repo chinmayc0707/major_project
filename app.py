@@ -266,10 +266,13 @@ def call_ai_summarization_api(text, language):
     # For now, we will return a dummy summary based on the language.
     if language == "kannada":
         return "ಇದು AI ನಿಂದ ರಚಿತವಾದ ಕನ್ನಡ ಸಾರಾಂಶವಾಗಿದೆ."
-    elif language == "kanglish":
-        return kanglish_converter_with_context('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')(text, [])
+    # IMPORTANT: Replace with your OpenRouter API key
+    openrouter_api_key = os.environ.get("OPENROUTER_API_KEY", "YOUR_OPENROUTER_API_KEY")
+
+    if language == "kanglish":
+        return kanglish_converter_with_context(openrouter_api_key)(text, [])
     elif language == "english":
-        return TextSummarizer("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").summarize(text, summary_type="key_facts").strip()
+        return TextSummarizer(openrouter_api_key).summarize(text, summary_type="key_facts").strip()
     else:
         return ""
 

@@ -70,9 +70,14 @@ def get_gemini_response(
         return f"API Error: {str(e)}"
 
 
+# IMPORTANT: Replace "YOUR_GEMINI_API_KEY" with your actual Gemini API key.
+# You can also set it as an environment variable named `GEMINI_API_KEY`.
+import os
+api_key = os.environ.get("GEMINI_API_KEY", "YOUR_GEMINI_API_KEY")
+
 response = get_gemini_response(
     prompt=input("Enter text to transliterate to Kanglish: "),
-    api_key="AIzaSyDvbqgXET_e6ThTMvEql6OAl8LbgyyqmP4",
+    api_key=api_key,
     system_prompt="""You are a transliteration assistant that converts English sentences into Kanglish (Kannada written in English letters, not Kannada script).
 
 Rules:

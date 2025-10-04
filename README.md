@@ -34,8 +34,13 @@ This project is a web application that transcribes audio/video content and provi
    *(Note: A `requirements.txt` file should be created with the necessary packages, e.g., `Flask`, `requests`, `yt-dlp`, `google-generativeai`)*
 
 3. **Set up API Keys:**
-   - **AssemblyAI**: Open `assemblyai.py` and replace `"e5c054b0ee3d44f782fba1bd64dc8a05"` with your own API key.
-   - **OpenRouter/Gemini**: Update the API keys in `app.py` and `transliteration.py` for the summarization and transliteration features.
+   To use the transcription, summarization, and transliteration features, you need to set up API keys from the respective services.
+
+   - **AssemblyAI**: Open `assemblyai.py` and replace `"YOUR_ASSEMBLYAI_API_KEY"` with your actual AssemblyAI API key.
+   - **OpenRouter**: In `app.py`, replace `"YOUR_OPENROUTER_API_KEY"` with your OpenRouter API key. Alternatively, you can set it as an environment variable named `OPENROUTER_API_KEY`.
+   - **Gemini**: In `transliteration.py`, replace `"YOUR_GEMINI_API_KEY"` with your Gemini API key. Alternatively, you can set it as an environment variable named `GEMINI_API_KEY`.
+
+   **Note:** It is strongly recommended to use environment variables to keep your API keys secure.
 
 4. **Run the application:**
    ```bash
