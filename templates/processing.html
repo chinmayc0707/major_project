@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Processing Pipeline</title>
+    <link rel="stylesheet" href="/static/src/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen bg-gray-900 text-white">
+    <div class="container mx-auto px-4 py-12 max-w-3xl">
+        <header class="mb-12 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-indigo-300 mb-4">Processing Your File</h1>
+            <p class="text-gray-400 max-w-lg mx-auto">Your file is being processed through our pipeline. This may take a few moments...</p>
+        </header>
+
+        <!-- Animated Processing Illustration -->
+        <div class="flex justify-center mb-16">
+            <div class="relative w-64 h-64">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-40 h-40 rounded-full bg-indigo-900 animate-pulse"></div>
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center animate-spin-slow">
+                    <i class="fas fa-cog text-5xl text-indigo-400 opacity-70"></i>
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center animate-float">
+                    <i class="fas fa-file-alt text-4xl text-indigo-300"></i>
+                </div>
+                <div class="absolute top-0 left-1/2 -ml-4 animate-bounce">
+                    <i class="fas fa-microphone text-xl text-purple-400"></i>
+                </div>
+                <div class="absolute bottom-0 left-1/4 -ml-4 animate-bounce" style="animation-delay: 0.3s;">
+                    <i class="fas fa-font text-xl text-green-400"></i>
+                </div>
+                <div class="absolute top-0 right-1/4 -mr-4 animate-bounce" style="animation-delay: 0.6s;">
+                    <i class="fas fa-language text-xl text-blue-400"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Processing Steps -->
+        <div class="space-y-6">
+            <!-- Step 1: Receiving File -->
+            <div id="step1" class="step-card bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-700 processing-animation">
+                <div class="flex items-start">
+                    <div class="mr-4">
+                        <div class="w-10 h-10 rounded-full bg-indigo-900 flex items-center justify-center">
+                            <span class="text-indigo-300 font-medium">1</span>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-medium text-white">Receiving File</h3>
+                            <span id="step1Status" class="text-xs px-2 py-1 rounded-full bg-yellow-600 text-yellow-300">
+                                <i class="fas fa-spinner fa-spin mr-1"></i> Processing
+                            </span>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">Your file is being prepared for processing in our system.</p>
+                        <div id="step1Progress" class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="progress-bar bg-indigo-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Converting to Audio -->
+            <div id="step2" class="step-card bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-700 opacity-75">
+                <div class="flex items-start">
+                    <div class="mr-4">
+                        <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center">
+                            <span class="text-gray-500 font-medium">2</span>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-medium text-gray-400">Converting to Audio</h3>
+                            <span id="step2Status" class="text-xs px-2 py-1 rounded-full bg-gray-700 text-gray-400">Pending</span>
+                        </div>
+                        <p class="text-gray-500 text-sm mb-3">If needed, your file will be converted to audio format.</p>
+                        <div id="step2Progress" class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="progress-bar bg-gray-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Transcribing -->
+            <div id="step3" class="step-card bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-700 opacity-75">
+                <div class="flex items-start">
+                    <div class="mr-4">
+                        <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center">
+                            <span class="text-gray-500 font-medium">3</span>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-medium text-gray-400">Transcribing</h3>
+                            <span id="step3Status" class="text-xs px-2 py-1 rounded-full bg-gray-700 text-gray-400">Pending</span>
+                        </div>
+                        <p class="text-gray-500 text-sm mb-3">Converting audio content to text using speech recognition.</p>
+                        <div id="step3Progress" class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="progress-bar bg-gray-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Summarizing -->
+            <div id="step4" class="step-card bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-700 opacity-75">
+                <div class="flex items-start">
+                    <div class="mr-4">
+                        <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center">
+                            <span class="text-gray-500 font-medium">4</span>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-medium text-gray-400">Summarizing</h3>
+                            <span id="step4Status" class="text-xs px-2 py-1 rounded-full bg-gray-700 text-gray-400">Pending</span>
+                        </div>
+                        <p class="text-gray-500 text-sm mb-3">Extracting key points to create a concise summary.</p>
+                        <div id="step4Progress" class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="progress-bar bg-gray-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Translating -->
+            <div id="step5" class="step-card bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-700 opacity-75">
+                <div class="flex items-start">
+                    <div class="mr-4">
+                        <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center">
+                            <span class="text-gray-500 font-medium">5</span>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-medium text-gray-400">Translating</h3>
+                            <span id="step5Status" class="text-xs px-2 py-1 rounded-full bg-gray-700 text-gray-400">Pending</span>
+                        </div>
+                        <p class="text-gray-500 text-sm mb-3">Converting content to your selected language.</p>
+                        <div id="step5Progress" class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="progress-bar bg-gray-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Message -->
+        <div class="mt-12 text-center text-gray-400">
+            <p class="mb-2"><i class="fas fa-info-circle mr-2"></i> Processing time depends on file size and complexity</p>
+            <div class="flex justify-center space-x-2">
+                <div class="w-2 h-2 rounded-full bg-gray-600 animate-pulse"></div>
+                <div class="w-2 h-2 rounded-full bg-gray-600 animate-pulse" style="animation-delay: 0.2s"></div>
+                <div class="w-2 h-2 rounded-full bg-gray-600 animate-pulse" style="animation-delay: 0.4s"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start processing immediately since file is already uploaded
+            simulateProcessing();
+            
+            function simulateProcessing() {
+                // Step 1: Receiving File (already in progress)
+                let progress = 0;
+                const interval1 = setInterval(() => {
+                    progress += Math.random() * 10;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval1);
+                        document.getElementById('step1Status').innerHTML = '<i class="fas fa-check-circle mr-1"></i> Completed';
+                        document.getElementById('step1Status').className = 'text-xs px-2 py-1 rounded-full bg-green-600 text-green-300';
+                        document.getElementById('step1').classList.remove('processing-animation');
+                        
+                        // Start next step
+                        processStep(2, 'Converting to Audio', 500);
+                    }
+                    document.querySelector('#step1Progress .progress-bar').style.width = `${progress}%`;
+                }, 200);
+            }
+            
+            function processStep(stepNumber, stepName, delay) {
+                setTimeout(() => {
+                    const stepElement = document.getElementById(`step${stepNumber}`);
+                    const statusElement = document.getElementById(`step${stepNumber}Status`);
+                    const progressBar = document.querySelector(`#step${stepNumber}Progress .progress-bar`);
+                    
+                    // Activate step
+                    stepElement.classList.remove('opacity-75');
+                    stepElement.classList.add('processing-animation');
+                    stepElement.querySelector('h3').classList.remove('text-gray-400');
+                    stepElement.querySelector('h3').classList.add('text-white');
+                    stepElement.querySelector('p').classList.remove('text-gray-500');
+                    stepElement.querySelector('p').classList.add('text-gray-300');
+                    stepElement.querySelector('.w-10').classList.remove('bg-gray-700');
+                    stepElement.querySelector('.w-10').classList.add('bg-indigo-900');
+                    stepElement.querySelector('.w-10 span').classList.remove('text-gray-500');
+                    stepElement.querySelector('.w-10 span').classList.add('text-indigo-300');
+                    
+                    statusElement.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Processing';
+                    statusElement.className = 'text-xs px-2 py-1 rounded-full bg-yellow-600 text-yellow-300';
+                    
+                    // Animate progress bar
+                    let progress = 0;
+                    const interval = setInterval(() => {
+                        progress += Math.random() * 8;
+                        if (progress >= 100) {
+                            progress = 100;
+                            clearInterval(interval);
+                            stepComplete(stepNumber, stepName);
+                        }
+                        progressBar.style.width = `${progress}%`;
+                        progressBar.classList.remove('bg-gray-600');
+                        progressBar.classList.add('bg-indigo-600');
+                    }, 200);
+                    
+                }, delay);
+            }
+            
+            function stepComplete(stepNumber, stepName) {
+                const statusElement = document.getElementById(`step${stepNumber}Status`);
+                statusElement.innerHTML = '<i class="fas fa-check-circle mr-1"></i> Completed';
+                statusElement.className = 'text-xs px-2 py-1 rounded-full bg-green-600 text-green-300';
+                document.getElementById(`step${stepNumber}`).classList.remove('processing-animation');
+                
+                // Process next step if not the last one
+                if (stepNumber < 5) {
+                    const nextStepNumber = stepNumber + 1;
+                    const nextStepName = 
+                        nextStepNumber === 2 ? 'Converting to Audio' :
+                        nextStepNumber === 3 ? 'Transcribing' :
+                        nextStepNumber === 4 ? 'Summarizing' : 'Translating';
+                    
+                    processStep(nextStepNumber, nextStepName, 800);
+                } else {
+                    // All steps complete, redirect to results page
+                    setTimeout(() => {
+                        window.location.href = 'index-result.html';
+                    }, 1000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

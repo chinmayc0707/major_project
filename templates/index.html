@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanglish Summarizer</title>
+  <link rel="stylesheet" href="/static/src/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r77/three.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.2/dist/ffmpeg.min.js"></script>
+  
+</head>
+
+<body>
+  <div id="root">
+    <header class="app-header">
+      <div class="logo-container">
+        <div class="logo">
+          <img src="/static/src/assets/logo.svg" alt="Kanglish Summarizer Logo" class="logo-image">
+          <h1 style="font-weight: bolder; padding-bottom: 10px;">Kanglish Summarizer</h1>
+        </div>
+        <p class="tagline">Transform Kannada-English mixed speech to clear summaries</p>
+      </div>
+      <div class="controls">
+        <button id="high-contrast-toggle" class="accessibility-toggle" aria-label="Toggle light/dark theme">
+          <!-- SVG icon will be inserted via JavaScript -->
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Welcome Section with Mascot -->
+      <section class="welcome-section">
+        <div class="welcome-container">
+          <div class="welcome-content">
+            <h2 class="kannada-heading" style="font-weight: bolder; padding-bottom: 10px;">ಸ್ವಾಗತ! <span>Welcome!</span></h2>
+            <p class="welcome-intro">
+              Kanglish Summarizer helps you transform mixed Kannada-English audio into clear, concise summaries.
+              Whether you're processing meetings, lectures, or interviews, our AI technology understands the
+              nuances of code-mixing in Karnataka's everyday language.
+            </p>
+            <div class="welcome-features">
+              <div class="feature">
+                <div class="feature-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12h5l2 5 2-10 2 5h5"></path>
+                    <path d="M19 6a2 2 0 1 1 0 4 2 2 0 0 1 0-4"></path>
+                    <path d="M5 6a2 2 0 1 1 0 4 2 2 0 0 1 0-4"></path>
+                  </svg>
+                </div>
+                <span>Accurate Speech Recognition</span>
+              </div>
+              <div class="feature">
+                <div class="feature-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                    <rect x="3" y="6" width="18" height="16" rx="2"></rect>
+                    <path d="M8 14h.01"></path>
+                    <path d="M12 14h.01"></path>
+                    <path d="M16 14h.01"></path>
+                    <path d="M8 18h.01"></path>
+                    <path d="M12 18h.01"></path>
+                    <path d="M16 18h.01"></path>
+                  </svg>
+                </div>
+                <span>Fast Processing</span>
+              </div>
+              <div class="feature">
+                <div class="feature-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path>
+                    <path d="M12 12v9"></path>
+                    <path d="m8 17 4 4 4-4"></path>
+                  </svg>
+                </div>
+                <span>Easy Downloads</span>
+              </div>
+            </div>
+          </div>
+          <div class="mascot-container">
+            <img src="/static/src/assets/mascot.svg" alt="Kanglish AI Assistant Mascot" class="mascot-image">
+          </div>
+        </div>
+      </section>
+
+      <!-- Audio Import Section -->
+      <section class="audio-import-section">
+        
+        <!-- Updated Audio Import Tabs -->
+<div role="tablist" aria-orientation="horizontal" class="audio-import-tabs h-100 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground grid w-full grid-cols-4" tabindex="1">
+  <button class="audio-import-tab active" data-target="upload-tab" role="tab">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+      <polyline points="17 8 12 3 7 8"></polyline>
+      <line x1="12" x2="12" y1="3" y2="15"></line>
+    </svg>
+    Upload Audio
+  </button>
+  
+  <button class="audio-import-tab" data-target="url-tab" role="tab">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4">
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+    </svg>
+    From URL
+  </button>
+  
+  <button class="audio-import-tab" data-target="video-tab" role="tab">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4">
+      <path d="M23 7l-7 5 7 5V7z"></path>
+      <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+    </svg>
+    From Video
+  </button>
+  
+  <button class="audio-import-tab" data-target="text-tab" role="tab">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4">
+      <path d="M8 3H4a2 2 0 0 0-2 2v4m18-6v4M8 3v18M16 3v18m0 0h4a2 2 0 0 0 2-2V9M16 21H4a2 2 0 0 1-2-2V9h18"></path>
+    </svg>
+    Paste Text
+  </button>
+</div>
+
+        <!-- Upload Audio Tab -->
+         <form action="/">
+          <div id="upload-tab" class="tab-content active">
+          <div class="upload-container" id="upload-container">
+            <div style="text-align: center" class="upload-icon">
+              <svg style="text-align: center" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+            </div>
+            <h2 style="font-weight: bolder; padding-bottom: 10px;">Upload Your Audio File</h2>
+            <p>Drag and drop your audio file here or click to browse</p>
+            <p class="supported-formats">Supported formats: MP3, WAV, M4A</p>
+            <input type="file" id="file-input" accept=".mp3,.wav,.m4a" hidden>
+            <button type="button" class="browse-button">Browse Files</button>
+          </div>
+        </div>
+      </form>
+        
+      
+        <!-- In URL Import Tab section -->
+<div id="url-tab" class="tab-content">
+  <div class="url-input-container">
+    <h3 style="font-weight: bold; margin-bottom: 1rem; text-align: center;">Import from URL</h3>
+    <p style="margin-bottom: 1rem; text-align: center;">Enter URL (YouTube, audio/video files, cloud storage)</p>
+    <input type="url" id="url-input" class="url-input-field" 
+           placeholder="https://example.com/file.mp3 or YouTube link">
+    <p id="url-status" class="url-status"></p>
+    <div class="url-input-actions">
+      <button id="url-fetch-button" class="url-fetch-button" disabled>Process Content</button>
+    </div>
+  </div>
+</div>
+
+<!-- Updated Video Convert Tab -->
+<div id="video-tab" class="tab-content">
+  <div class="video-to-audio-container">
+    <div class="video-converter-card">
+      <h3 style="font-weight: bold; margin-bottom: 1rem; text-align: center;">Video Conversion</h3>
+      <p style="margin-bottom: 1rem; text-align: center;">
+        Upload video file (MP4, MOV, AVI, MKV, WEBM) to extract audio
+      </p>
+      <div class="video-upload-controls">
+        <input type="file" id="video-input" accept=".mp4,.mov,.avi,.mkv,.webm" hidden>
+        <button class="video-browse-button">Select Video File</button>
+        <span id="video-filename" class="video-filename"></span>
+      </div>
+      <div class="conversion-controls">
+        <button style="align-self: center;" id="convert-button" class="convert-button" disabled>Convert to Audio</button>
+        <div id="conversion-progress" class="conversion-progress hidden">
+          <div class="conversion-progress-bar">    
+            <div class="conversion-progress-fill" id="conversion-progress-fill"></div>
+          </div>
+          <p class="conversion-status">
+            <span id="conversion-percentage">0</span>% converted
+            <span class="conversion-time">(Time remaining: <span id="conversion-time">30s</span>)</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Text Input Tab -->
+<div id="text-tab" class="tab-content">
+  <div class="text-input-container">
+    <h3 class="text-center font-bold mb-4">Paste Your Article</h3>
+    <textarea 
+      id="text-input" 
+      style="
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+  "
+      class="w-full p-4 rounded-lg border-2 border-muted bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 resize-y min-h-[200px]"
+      placeholder="Paste your article or text here..."
+    ></textarea>
+    <div class="mt-4 flex justify-end">
+      <button     
+
+        id="text-process-button" 
+        class="convert-button inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-full hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        disabled
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5">
+          <path d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+        </svg>
+        Process Text
+      </button>
+    </div>
+  </div>
+</div>
+
+      <section class="processing-section hidden" id="processing-section">
+        <div class="processing-container">
+          <!-- Custom animation can be added here later -->
+          <div class="flex justify" style="display: flex; justify-content: center; align-items: center;">
+            <canvas id="canvas1" class="loading-canvas" width="137" height="137"
+              style="width: 100px; height: 100px;"></canvas>
+          </div>
+          <h2>Processing Your Audio</h2>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <p class="progress-text"><span id="progress-percentage">0</span>% complete</p>
+          </div>
+          <p class="estimated-time">Estimated time remaining: <span id="time-remaining">calculating...</span></p>
+        </div>
+      </section>
+
+      <section class="how-it-works">
+        <h2 style="font-weight: bolder;font-size: xx-large; padding-top: 100px;">How It Works</h2>
+        <div class="steps-container">
+          <div class="step">
+            <div class="step-icon">
+              <svg style="align-content: center;" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+            </div>
+            <h3 style="font-weight: bolder; padding-bottom: 10px;">1. Upload</h3>
+            <p>Upload your Kanglish audio file in MP3, WAV, or M4A format</p>
+          </div>
+          <div class="step">
+            <div class="step-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+            </div>
+            <h3 style="font-weight: bolder; padding-bottom: 10px;">2. Process</h3>
+            <p>Our AI system analyzes the mixed language audio content</p>
+          </div>
+          <div class="step">
+            <div class="step-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+            <h3 style="font-weight: bolder; padding-bottom: 10px;">3. Summarize</h3>
+            <p>Get a concise, clear summary of the content in English</p>
+          </div>
+        </div>
+      </section>
+
+      
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="/static/src/assets/logo-small.svg" alt="Kanglish Summarizer Logo" class="footer-logo-image">
+          <p style="font-weight: bolder; padding-bottom: 10px;">Kanglish Summarizer</p>
+        </div>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact Us</a>
+        </div>
+        <div class="footer-partners">
+          <p>Developed in collaboration with:</p>
+          <div class="partner-logos">
+            <span class="partner">SJB Institute of Technology</span>
+          </div>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 Kanglish Summarizer. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+  <script src="/static/src/main.js"></script>
+  <script>
+    function createAnimation(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      const canvassize = 100; // Adjust size for list/table
+      const length = 30;
+      const radius = 5.6;
+      const rotatevalue = 0.035;
+      let animatestep = 0;
+      let toend = false;
+      const pi2 = Math.PI * 2;
+      const group = new THREE.Group();
+      let mesh, camera, scene, renderer;
+
+      camera = new THREE.PerspectiveCamera(65, 1, 1, 10000);
+      camera.position.z = 50;
+
+      scene = new THREE.Scene();
+      scene.add(group);
+
+      mesh = new THREE.Mesh(
+        new THREE.TubeGeometry(new (THREE.Curve.create(function () { },
+          function (percent) {
+            const x = length * Math.sin(pi2 * percent);
+            const y = radius * Math.cos(pi2 * 3 * percent);
+            let z, t;
+
+            t = percent % 0.25 / 0.25;
+            t = percent % 0.25 - (2 * (1 - t) * t * -0.0185 + t * t * 0.25);
+            if (Math.floor(percent / 0.25) == 0 || Math.floor(percent / 0.25) == 2) {
+              t *= -1;
+            }
+            z = radius * Math.sin(pi2 * 2 * (percent - t));
+
+            return new THREE.Vector3(x, y, z);
+          }
+        ))(), 200, 1.1, 2, true),
+        new THREE.MeshBasicMaterial({ color: 'red' })
+      );
+      group.add(mesh);
+
+      // Fake shadow
+      (function () {
+        let plain, i;
+        for (i = 0; i < 10; i++) {
+          plain = new THREE.Mesh(new THREE.PlaneGeometry(length * 2 + 1, radius * 3, 1), new THREE.MeshBasicMaterial({ color: 'white', transparent: true, opacity: 0.13 }));
+          plain.position.z = -2.5 + i * 0.5;
+          group.add(plain);
+        }
+      })();
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, canvas: canvas });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(canvassize, canvassize);
+      renderer.setClearColor('white', 0);
+
+      function render() {
+        let progress;
+        animatestep = Math.max(0, Math.min(240, toend ? animatestep + 1 : animatestep - 4));
+        const acceleration = easing(animatestep, 0, 1, 240);
+
+        if (acceleration > 0.35) {
+          progress = (acceleration - 0.35) / 0.65;
+          group.rotation.y = -Math.PI / 2 * progress;
+          group.position.z = 50 * progress;
+          progress = Math.max(0, (acceleration - 0.97) / 0.03);
+          mesh.material.opacity = 0;
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      function animate() {
+        mesh.rotation.x += rotatevalue;
+        render();
+        requestAnimationFrame(animate);
+      }
+
+      function easing(t, b, c, d) {
+        if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+        return c / 2 * ((t -= 2) * t * t + 2) + b;
+      }
+
+      animate();
+    }
+    createAnimation('canvas1');
+  </script>
+
+</body>
+
+</html>
