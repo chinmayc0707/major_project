@@ -138,12 +138,12 @@ Convert this English text to natural Kanglish: "{text}"
 Provide only the Kanglish conversion, nothing else."""
 
         payload = {
-            "model": "mistralai/mistral-7b-instruct:free",
+            "model": "deepseek/deepseek-chat-v3.1:free",
             "messages": [
                 {"role": "user", "content": system_prompt}
             ],
             "temperature": 0.2,
-            "max_tokens": 300
+            "max_tokens": 1024
         }
         
         try:
@@ -180,7 +180,7 @@ class TextSummarizer:
     def __init__(self, api_key: str):
         self.api_key = api_key
         self.base_url = "https://openrouter.ai/api/v1/chat/completions"
-        self.model = "mistralai/mistral-7b-instruct:free"
+        self.model = "deepseek/deepseek-chat-v3.1:free"
     
     def summarize(self, 
                  text: str, 
@@ -267,9 +267,9 @@ def call_ai_summarization_api(text, language):
     if language == "kannada":
         return "ಇದು AI ನಿಂದ ರಚಿತವಾದ ಕನ್ನಡ ಸಾರಾಂಶವಾಗಿದೆ."
     elif language == "kanglish":
-        return kanglish_converter_with_context('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')(text, [])
+        return kanglish_converter_with_context('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')(text, [])
     elif language == "english":
-        return TextSummarizer("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").summarize(text, summary_type="key_facts").strip()
+        return TextSummarizer("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").summarize(text, summary_type="key_facts").strip()
     else:
         return ""
 
