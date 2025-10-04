@@ -1,36 +1,55 @@
-# Major Project
+# Multimedia Transcription and Summarization
 
-This repository contains the "Major Project" application.
+This project is a web application that transcribes audio/video content and provides summaries in multiple languages. It can process local files, YouTube videos, and direct text input.
 
-Contents:
-- Python scripts (app.py, assemblyai.py, etc.)
-- static/ and templates/ for the web frontend
-- uploads/ and sample media (ignored by .gitignore)
+## Features
 
-How to push to GitHub:
-1. Create a new repository on GitHub (https://github.com/new) named `major-project` (or another name).
-2. In PowerShell in this folder:
-   git remote add origin https://github.com/<YOUR_USERNAME>/major-project.git
-   git push -u origin main
+- **Transcription**:
+  - Transcribe audio and video files (MP3, WAV, MP4, MOV, etc.).
+  - Extract and transcribe audio from YouTube URLs.
+  - Powered by the AssemblyAI API for accurate speech-to-text conversion.
 
-Or use the GitHub API with a personal access token (instructions provided in the repo)."
+- **Summarization**:
+  - Generate summaries of the transcribed text in three different formats:
+    - **English**: A standard summary in English.
+    - **Kannada**: A summary translated into the Kannada language.
+    - **Kanglish**: A summary in Kanglish (Kannada written with English letters), ideal for casual reading.
+  - Supports direct text input for summarization.
 
-Automatic repo creation and push
---------------------------------
+- **Transliteration**:
+  - Convert English text to Kanglish.
 
-There is a helper PowerShell script `create_and_push.ps1` which will create a repository under your GitHub account (using a personal access token) and push the current `main` branch.
+## How to Run
 
-Usage (PowerShell):
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
 
-1. Create a personal access token on GitHub with the `repo` scope. Save it somewhere safe.
-2. In PowerShell set the token for the session:
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+   *(Note: A `requirements.txt` file should be created with the necessary packages, e.g., `Flask`, `requests`, `yt-dlp`, `google-generativeai`)*
 
-   $env:GITHUB_TOKEN = "ghp_xxxYourTokenHerexxx"
+3. **Set up API Keys:**
+   - **AssemblyAI**: Open `assemblyai.py` and replace `"e5c054b0ee3d44f782fba1bd64dc8a05"` with your own API key.
+   - **OpenRouter/Gemini**: Update the API keys in `app.py` and `transliteration.py` for the summarization and transliteration features.
 
-3. Run the script (optionally change the repo name and visibility):
+4. **Run the application:**
+   ```bash
+   python app.py
+   ```
 
-   .\create_and_push.ps1 -RepoName "major-project" -Visibility "public"
+5. **Open your browser** and navigate to `http://127.0.0.1:5000`.
 
-The script will create the repo, set `origin`, and push `main`.
+## Project Structure
 
-Security note: do not commit tokens to source control. Prefer setting the environment variable only in your session.
+- `app.py`: The main Flask application file containing the web server logic and routes.
+- `assemblyai.py`: Handles all interactions with the AssemblyAI API for transcription.
+- `transliteration.py`: Contains the logic for English to Kanglish transliteration.
+- `templates/`: Houses the HTML templates for the web interface.
+- `static/`: Stores static assets like CSS and JavaScript files.
+- `uploads/`: The default directory for storing uploaded audio/video files.
+- `downloads/`: The default directory for storing audio downloaded from YouTube.
