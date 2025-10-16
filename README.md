@@ -23,19 +23,18 @@ This project is a web application that transcribes audio/video content and provi
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/chinmayc0707/major_project.git
+   cd major_project
    ```
 
 2. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
-   *(Note: A `requirements.txt` file should be created with the necessary packages, e.g., `Flask`, `requests`, `yt-dlp`, `google-generativeai`)*
 
 3. **Set up API Keys:**
-   - **AssemblyAI**: Open `assemblyai.py` and replace `"e5c054b0ee3d44f782fba1bd64dc8a05"` with your own API key.
-   - **OpenRouter/Gemini**: Update the API keys in `app.py` and `transliteration.py` for the summarization and transliteration features.
+   - **AssemblyAI**: Open `assemblyai.py` and replace the placeholder with your own API key.
+   - **OpenRouter**: Update the API keys in `app.py` for the summarization and transliteration features.
 
 4. **Run the application:**
    ```bash

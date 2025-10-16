@@ -50,7 +50,7 @@ def get_time_elapsed(start_time):
 total_start_time = time.time()
 base_url = "https://api.assemblyai.com"
 headers = {
-    "authorization": "e5c054b0ee3d44f782fba1bd64dc8a05"
+    "authorization": "YOUR_ASSEMBLYAI_API_KEY"
 }
 
 def transcribe_youtube_audio(media_source):
